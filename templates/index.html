@@ -1,571 +1,1109 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Luno Trading Bot Dashboard</title>
-    <style>
-        :root{--nav-bg:#123b7a;--nav-accent:#2a6fb8;--pill-bg:#ffffff;--pill-border:#e6eef8}
-        *{box-sizing:border-box}
-        body{margin:0;font-family:Segoe UI,Roboto,Arial,sans-serif;background:#eaf3ff;color:#123}
+<!DOCTYPE html><!DOCTYPE html>
 
-        /* Top header */
-        .topbar{background:var(--nav-bg);color:#fff;padding:14px 20px;border-radius:8px}
-        .topbar .inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:12px}
-        .brand{display:flex;align-items:center;gap:12px;font-weight:700;font-size:18px}
-        .brand .logo{width:36px;height:36px;border-radius:6px;background:linear-gradient(135deg,#fff0,#fff3);display:flex;align-items:center;justify-content:center;color:var(--nav-bg)}
-        .live-btn{background:#37b24d;color:#fff;padding:8px 14px;border-radius:20px;font-weight:700}
+<html lang="en"><html lang="en">
+
+<head><head>
+
+    <meta charset="utf-8">    <meta charset="utf-8">
+
+    <meta name="viewport" content="width=device-width,initial-scale=1">    <meta name="viewport" content="width=device-width,initial-scale=1">
+
+    <title>Luno Trading Bot Dashboard</title>    <title>Luno Trading Bot Dashboard</title>
+
+    <style>    <style>
+
+        :root{        :root{--nav-bg:#123b7a;--nav-accent:#2a6fb8;--pill-bg:#ffffff;--pill-border:#e6eef8}
+
+            --primary: #123b7a;        *{box-sizing:border-box}
+
+            --accent: #2a6fb8;        body{margin:0;font-family:Segoe UI,Roboto,Arial,sans-serif;background:#eaf3ff;color:#123}
+
+            --success: #37b24d;
+
+            --warning: #ff9800;        /* Top header */
+
+            --danger: #f44336;        .topbar{background:var(--nav-bg);color:#fff;padding:14px 20px;border-radius:8px}
+
+            --muted: #6b7a93;        .topbar .inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:12px}
+
+            --light: #eaf3ff;        .brand{display:flex;align-items:center;gap:12px;font-weight:700;font-size:18px}
+
+            --border: #e6eef8;        .brand .logo{width:36px;height:36px;border-radius:6px;background:linear-gradient(135deg,#fff0,#fff3);display:flex;align-items:center;justify-content:center;color:var(--nav-bg)}
+
+            --bg-card: #ffffff;        .live-btn{background:#37b24d;color:#fff;padding:8px 14px;border-radius:20px;font-weight:700}
+
+        }
 
         /* Nav pills */
-        .nav-wrap{max-width:1200px;margin:-10px auto 16px;padding:12px}
-        .nav-pill{background:var(--pill-bg);border-radius:10px;padding:8px 12px;display:flex;gap:10px;align-items:center;border:1px solid var(--pill-border);box-shadow:0 1px 0 rgba(0,0,0,0.03)}
-        .nav-link{padding:10px 14px;border-radius:8px;background:transparent;border:none;cursor:pointer;font-weight:600;color:#2a4b6a}
-        .nav-link.active{background:linear-gradient(180deg,#f6fbff,#fff);box-shadow:inset 0 -2px 0 var(--nav-accent);color:var(--nav-accent)}
 
-        /* Content area */
-        .content{max-width:1200px;margin:8px auto;padding:18px;background:#fff;border-radius:10px;min-height:360px;box-shadow:0 4px 18px rgba(18,59,122,0.08)}
+        *{margin:0;padding:0;box-sizing:border-box}        .nav-wrap{max-width:1200px;margin:-10px auto 16px;padding:12px}
+
+        body{        .nav-pill{background:var(--pill-bg);border-radius:10px;padding:8px 12px;display:flex;gap:10px;align-items:center;border:1px solid var(--pill-border);box-shadow:0 1px 0 rgba(0,0,0,0.03)}
+
+            font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;        .nav-link{padding:10px 14px;border-radius:8px;background:transparent;border:none;cursor:pointer;font-weight:600;color:#2a4b6a}
+
+            background:linear-gradient(180deg,#1f3b6b 0%,#2a4f7f 100%);        .nav-link.active{background:linear-gradient(180deg,#f6fbff,#fff);box-shadow:inset 0 -2px 0 var(--nav-accent);color:var(--nav-accent)}
+
+            color:#222;
+
+            min-height:100vh;        /* Content area */
+
+        }        .content{max-width:1200px;margin:8px auto;padding:18px;background:#fff;border-radius:10px;min-height:360px;box-shadow:0 4px 18px rgba(18,59,122,0.08)}
+
         .section-title{font-size:16px;color:#123b7a;margin-bottom:8px}
-    </style>
-    <script>
+
+        /* Page structure */    </style>
+
+        .page{max-width:1400px;margin:0 auto;padding:20px}    <script>
+
         // Minimal nav behavior
-        function setActiveNav(el){
-            document.querySelectorAll('.nav-link').forEach(n=>n.classList.remove('active'));
-            el.classList.add('active');
-            const target = el.getAttribute('data-target');
-            document.querySelectorAll('.content-section').forEach(s=>s.style.display='none');
-            document.getElementById(target).style.display='block';
-        }
-        window.addEventListener('DOMContentLoaded',()=>{
-            const first = document.querySelector('.nav-link');
-            if(first) setActiveNav(first);
-        });
-    </script>
-</head>
-<body>
-    <div class="topbar">
-        <div class="inner">
-            <div class="brand">
-                <div class="logo">📈</div>
-                <div>Luno Trading Bot Dashboard</div>
-            </div>
-            <div class="live-btn">LIVE TRADING</div>
-        </div>
-    </div>
 
-    <div class="nav-wrap">
-        <div class="nav-pill" role="tablist" aria-label="Main navigation">
-            <button class="nav-link" data-target="sec-dashboard" onclick="setActiveNav(this)">📊 Dashboard</button>
-            <button class="nav-link" data-target="sec-strategy" onclick="setActiveNav(this)">🎯 Strategy</button>
-            <button class="nav-link" data-target="sec-trends" onclick="setActiveNav(this)">📈 Trends & Signals</button>
-            <button class="nav-link" data-target="sec-compound" onclick="setActiveNav(this)">💰 Compound Mode</button>
-            <button class="nav-link" data-target="sec-alerts" onclick="setActiveNav(this)">🔔 Alerts</button>
-            <button class="nav-link" data-target="sec-api" onclick="setActiveNav(this)">🔒 API Credentials</button>
-        </div>
-    </div>
+        /* Header */        function setActiveNav(el){
 
-    <main class="content" role="main">
-        <div id="sec-dashboard" class="content-section">
-            <div class="section-title">Dashboard</div>
-            <p>Overview, balances and quick stats will appear here.</p>
+        .header{            document.querySelectorAll('.nav-link').forEach(n=>n.classList.remove('active'));
+
+            background:var(--primary);            el.classList.add('active');
+
+            color:#fff;            const target = el.getAttribute('data-target');
+
+            padding:24px;            document.querySelectorAll('.content-section').forEach(s=>s.style.display='none');
+
+            border-radius:12px;            document.getElementById(target).style.display='block';
+
+            margin-bottom:24px;        }
+
+            display:flex;        window.addEventListener('DOMContentLoaded',()=>{
+
+            justify-content:space-between;            const first = document.querySelector('.nav-link');
+
+            align-items:center;            if(first) setActiveNav(first);
+
+            gap:20px;        });
+
+        }    </script>
+
+        .header-title{font-size:28px;font-weight:800}</head>
+
+        .header-badge{    <main class="content" role="main">
+
+            background:var(--success);        <div id="sec-dashboard" class="content-section">
+
+            padding:8px 16px;            <div class="dashboard-grid">
+
+            border-radius:20px;                <!-- Left column: Live Price chart -->
+
+            font-weight:700;                <div>
+
+            font-size:14px;                    <div class="card">
+
+        }                        <div class="card-header"><h3>Live Price</h3><div class="muted">Current Price</div></div>
+
+                        <div class="chart-box"><canvas id="livePriceChart" width="600" height="220"></canvas></div>
+
+        /* Navigation */                        <div style="margin-top:12px;display:flex;justify-content:space-between;align-items:center"><div class="muted">Current Price:</div><div style="font-weight:800;color:var(--nav-bg)">฿ <span id="current-price">0.00</span></div></div>
+
+        .nav{                    </div>
+
+            background:#fff;
+
+            padding:16px 24px;                    <div class="card" style="margin-top:18px">
+
+            border-radius:12px;                        <h3 style="margin-bottom:10px">Auto-Sell Monitor</h3>
+
+            margin-bottom:24px;                        <div style="display:flex;gap:12px;align-items:center"><button class="btn">▶ Start Auto-Sell</button><label class="muted">Target Profit %:</label><input id="target-profit" value="2.0" style="flex:1;padding:6px;border-radius:4px;border:1px solid #e6eef8"/></div>
+
+            display:flex;                    </div>
+
+            gap:12px;                </div>
+
+            flex-wrap:wrap;
+
+            box-shadow:0 2px 8px rgba(0,0,0,0.06);                <!-- Right column: Bot Status -->
+
+        }                <aside>
+
+        .nav-link{                    <div class="card">
+
+            background:transparent;                        <div class="card-header"><h3>Bot Status</h3><div></div></div>
+
+            border:none;                        <div class="status-list">
+
+            padding:12px 16px;                            <div class="status-item"><span>Status:</span><strong id="status-text">RUNNING</strong></div>
+
+            border-radius:8px;                            <div class="status-item"><span>Mode:</span><strong style="color:#2dca73">LIVE</strong></div>
+
+            cursor:pointer;                            <div class="status-item"><span>Last Update:</span><strong id="last-update">--:--:--</strong></div>
+
+            font-weight:600;                            <div class="status-item"><span>Total Trades:</span><strong id="total-trades">0</strong></div>
+
+            color:var(--muted);                            <div class="status-item"><span>Buy Price:</span><strong id="buy-price">0.00</strong></div>
+
+            transition:all 0.2s;                            <div class="status-item"><span>Current Bid:</span><strong id="current-bid">0.00</strong></div>
+
+            border-bottom:3px solid transparent;                            <div class="status-item"><span>Current Value (NGN):</span><strong id="current-value">0.00</strong></div>
+
+        }                        </div>
+
+        .nav-link:hover{color:var(--accent)}                    </div>
+
+        .nav-link.active{
+
+            color:var(--accent);                    <div class="card" style="margin-top:18px">
+
+            border-bottom-color:var(--accent);                        <h3 style="margin-bottom:10px">Manual Trade</h3>
+
+            background:#f6fbff;                        <div style="display:flex;gap:8px;flex-wrap:wrap">
+
+        }                            <input placeholder="Pair (e.g. USDTNGN)" style="padding:8px;border-radius:6px;border:1px solid #e6eef8;flex:1"/>
+
+                            <select style="padding:8px;border-radius:6px;border:1px solid #e6eef8"><option>Buy</option><option>Sell</option></select>
+
+        /* Main layout */                        </div>
+
+        .layout{display:grid;grid-template-columns:1fr;gap:24px}                        <div style="margin-top:10px"><button class="btn">▶ Place Trade</button> <button class="btn secondary">Reset</button></div>
+
+                    </div>
+
+        /* Sections */                </aside>
+
+        .section{background:#fff;border-radius:12px;padding:24px;box-shadow:0 2px 8px rgba(0,0,0,0.06)}            </div>
+
+        .section-title{font-size:20px;font-weight:700;color:var(--primary);margin-bottom:20px;padding-bottom:12px;border-bottom:2px solid var(--border)}
+
         </div>
 
-        <div id="sec-strategy" class="content-section" style="display:none">
-            <div class="section-title">Strategy</div>
-            <p>Strategy configuration and live chart placeholders.</p>
-        </div>
+        /* Two column grid */
 
-        <div id="sec-trends" class="content-section" style="display:none">
-            <div class="section-title">Trends & Signals</div>
-            <p>Signal log and trend detection area.</p>
-        </div>
+        .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:24px}        <!-- Other sections kept but hidden -->
 
-        <div id="sec-compound" class="content-section" style="display:none">
-            <div class="section-title">Compound Mode</div>
-            <p>Compound settings and controls.</p>
-        </div>
+        @media (max-width:1024px){.grid-2{grid-template-columns:1fr}}        <div id="sec-strategy" class="content-section" style="display:none"></div>
 
-        <div id="sec-alerts" class="content-section" style="display:none">
-            <div class="section-title">Alerts</div>
-            <p>Alerting rules and history.</p>
-        </div>
+        <div id="sec-trends" class="content-section" style="display:none"></div>
 
-        <div id="sec-api" class="content-section" style="display:none">
-            <div class="section-title">API Credentials</div>
-            <p>Manage API keys used by the bot (keep them secret).</p>
-        </div>
-    </main>
-</body>
-</html>
-        
-        .config-input label {
-            font-weight: 600;
-            margin-bottom: 5px;
-            color: #666;
-        }
-        
-        .config-input input, .config-input select {
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            font-size: 14px;
-        }
-        
-        .button-group {
-            display: flex;
-            gap: 10px;
-            margin-top: 15px;
-        }
-        
-        button {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s;
-        }
-        
-        button.primary {
-            background: #2a5298;
-            color: white;
-        }
-        
-        button.primary:hover {
-            background: #1e3c72;
-        }
-        
-        button.secondary {
-            background: #f5f5f5;
-            color: #666;
-            border: 1px solid #ddd;
-        }
-        
-        button.secondary:hover {
-            background: #eee;
-        }
-        
-        .alert-box {
-            padding: 15px;
-            border-radius: 5px;
-            margin-bottom: 10px;
-        }
-        
-        .alert-success {
+        /* Full width */        <div id="sec-compound" class="content-section" style="display:none"></div>
+
+        .full-width{grid-column:1/-1}        <div id="sec-alerts" class="content-section" style="display:none"></div>
+
+        <div id="sec-api" class="content-section" style="display:none"></div>
+
+        /* Metrics display */    </main>
+
+        .metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px}
+
+        .metric-card{    <script>
+
+            background:linear-gradient(135deg,#f9fafb 0%,#ffffff 100%);        // Demo data rendering for visual correctness
+
+            padding:16px;        function updateDemo(){
+
+            border-radius:8px;            const price = (1400 + Math.random()*100).toFixed(2);
+
+            border:1px solid var(--border);            document.getElementById('current-price').textContent = price;
+
+        }            const bidEl = document.getElementById('current-bid'); if(bidEl) bidEl.textContent = price;
+
+        .metric-label{font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px}            const buyEl = document.getElementById('buy-price'); if(buyEl) buyEl.textContent = (parseFloat(price)-1.2).toFixed(2);
+
+        .metric-value{font-size:24px;font-weight:800;color:var(--primary);margin-top:8px}            const valEl = document.getElementById('current-value'); if(valEl) valEl.textContent = (parseFloat(price)*0.1).toFixed(2);
+
+            const lu = document.getElementById('last-update'); if(lu) lu.textContent = new Date().toLocaleTimeString();
+
+        /* Cards / boxes */            const tbody = document.getElementById('recent-trades-body');
+
+        .card{            if(tbody){
+
+            background:#f9fafb;                tbody.innerHTML = '';
+
+            padding:16px;                const actions = ['BUY','BUY','BUY','SELL'];
+
+            border-radius:8px;                for(let i=0;i<3;i++){
+
+            border:1px solid var(--border);                    const tr = document.createElement('tr');
+
+            margin-bottom:12px;                    tr.innerHTML = `<td>${new Date(Date.now()-i*3600000).toLocaleTimeString()}</td><td>${actions[i]}</td><td>฿ ${(1450 + Math.random()*10).toFixed(2)}</td><td>${(0.1*Math.random()).toFixed(4)}</td>`;
+
+        }                    tbody.appendChild(tr);
+
+        .card-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}                }
+
+        .card-title{font-weight:700;color:var(--primary)}            }
+
+            const tt = document.getElementById('total-trades'); if(tt) tt.textContent = '6';
+
+        /* Buttons */        }
+
+        .btn{        setInterval(updateDemo,3000);
+
+            display:inline-flex;        updateDemo();
+
+            align-items:center;    </script>
+
+            justify-content:center;        
+
+            gap:8px;        button.secondary {
+
+            padding:10px 16px;            background: #f5f5f5;
+
+            border-radius:6px;            color: #666;
+
+            border:none;            border: 1px solid #ddd;
+
+            cursor:pointer;        }
+
+            font-weight:600;        
+
+            font-size:14px;        button.secondary:hover {
+
+            transition:all 0.2s;            background: #eee;
+
+        }        }
+
+        .btn-primary{background:var(--primary);color:#fff}        
+
+        .btn-primary:hover{background:#0d2d5a;transform:translateY(-1px);box-shadow:0 4px 12px rgba(18,59,122,0.15)}        .alert-box {
+
+        .btn-secondary{background:#f0f0f0;color:var(--primary);border:1px solid var(--border)}            padding: 15px;
+
+        .btn-secondary:hover{background:#e8e8e8}            border-radius: 5px;
+
+        .btn-success{background:var(--success);color:#fff}            margin-bottom: 10px;
+
+        .btn-success:hover{background:#2d9c41;transform:translateY(-1px)}        }
+
+        .btn-danger{background:var(--danger);color:#fff}        
+
+        .btn-danger:hover{background:#da2c2c}        .alert-success {
+
             background: #d4edda;
-            border: 1px solid #c3e6cb;
-            color: #155724;
-        }
-        
-        .alert-error {
-            background: #f8d7da;
-            border: 1px solid #f5c6cb;
-            color: #721c24;
-        }
-        
-        .alert-info {
-            background: #d1ecf1;
+
+        /* Forms */            border: 1px solid #c3e6cb;
+
+        .form-group{margin-bottom:16px}            color: #155724;
+
+        .form-label{display:block;margin-bottom:6px;font-weight:600;color:var(--primary);font-size:14px}        }
+
+        .form-input,.form-select{        
+
+            width:100%;        .alert-error {
+
+            padding:10px 12px;            background: #f8d7da;
+
+            border:1px solid var(--border);            border: 1px solid #f5c6cb;
+
+            border-radius:6px;            color: #721c24;
+
+            font-size:14px;        }
+
+            font-family:inherit;        
+
+        }        .alert-info {
+
+        .form-input:focus,.form-select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(42,111,184,0.1)}            background: #d1ecf1;
+
             border: 1px solid #bee5eb;
-            color: #0c5460;
-        }
-        
-        .channel-status {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 10px;
-            background: #f5f5f5;
-            border-radius: 5px;
-            margin-bottom: 10px;
-        }
-        
-        .channel-status.enabled {
-            background: #d4edda;
-        }
-        
-        .channel-status.disabled {
-            background: #f8d7da;
-        }
-        
-        .status-indicator {
-            display: inline-block;
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: #999;
-        }
-        
-        .status-indicator.enabled {
-            background: #4CAF50;
-        }
-        
-        .status-indicator.disabled {
-            background: #f44336;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <header>
-            <h1>📈 Luno Trading Bot Dashboard</h1>
-            <div>
-                <span class="status-badge" id="status-badge">Loading...</span>
-            </div>
-        </header>
-        
-        <!-- Tab Navigation -->
-        <div class="tabs">
-            <button class="tab-button active" onclick="switchTab('dashboard', this)">📊 Dashboard</button>
-            <button class="tab-button" onclick="switchTab('monitoring', this)">📍 Monitoring</button>
-            <button class="tab-button" onclick="switchTab('strategy', this)">🎯 Strategy</button>
-            <button class="tab-button" onclick="switchTab('trends', this)">📈 Trends & Signals</button>
-            <button class="tab-button" onclick="switchTab('compound', this)">💰 Compound Mode</button>
-            <button class="tab-button" onclick="switchTab('alerts', this)">🔔 Alerts</button>
-            <button class="tab-button" onclick="switchTab('test_tab', this)">✅ TEST</button>
-            <button class="tab-button" onclick="switchTab('signal_log', this)">🖥️ Signal Log</button>
-            <button class="tab-button" onclick="switchTab('credentials', this)">🔐 API Credentials</button>
-        </div>
-        
-        <!-- Dashboard Tab -->
-        <div id="dashboard" class="tab-content active">
-            <div class="grid">
-            <div class="card">
-                <h2>Live Price</h2>
-                <div style="display: flex; justify-content: space-between; align-items: center; gap:12px; margin-bottom: 10px; flex-wrap:wrap;">
-                    <div style="display:flex;gap:10px;align-items:center;">
-                        <button id="realtimeToggle" onclick="toggleRealtimeChart()" style="padding: 8px 16px; background: #e74c3c; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;">🔴 Real-Time OFF</button>
-                        <label for="refreshInterval" style="font-size: 12px; font-weight: bold; margin-left:6px;">Interval (ms):</label>
-                        <input id="refreshInterval" type="range" min="500" max="5000" value="1000" step="100" style="width: 120px; cursor: pointer;">
-                        <span id="intervalDisplay" style="font-size: 12px; font-weight: bold; min-width: 40px;">1000</span>
-                    </div>
-                    <div style="display:flex;align-items:center;gap:8px;">
-                        <label for="pairsSelect" style="font-size:12px;font-weight:bold;">Track Pairs:</label>
-                        <select id="pairsSelect" multiple size="4" style="min-width:140px;">
-                            <option value="USDTNGN">USDTNGN</option>
-                            <option value="BTCNGN">BTCNGN</option>
-                            <option value="ETHNGN">ETHNGN</option>
-                            <option value="SOLNGN">SOLNGN</option>
-                            <option value="XRPNGN">XRPNGN</option>
-                            <option value="USDCNGN">USDCNGN</option>
-                        </select>
-                        <button class="secondary" onclick="applyTrackedPairs()" style="padding:6px 10px;border-radius:4px;">Track Selected</button>
-                        <button class="secondary" onclick="selectAllAndTrack()" style="padding:6px 10px;border-radius:4px; margin-left:6px;">Track All</button>
-                    </div>
-                    <div style="display:flex;align-items:center;gap:8px;">
-                        <label for="chartType" style="font-size:12px;font-weight:bold;">Chart Type:</label>
-                        <select id="chartType" style="min-width:120px;">
-                            <option value="line">Line</option>
-                            <option value="candles">Candles + Volume (single pair)</option>
-                        </select>
-                        <label for="candleInterval" style="font-size:12px;font-weight:bold;">Candle:</label>
-                        <select id="candleInterval" style="min-width:80px;"><option value="60000">1m</option><option value="300000">5m</option><option value="900000">15m</option></select>
-                    </div>
-                </div>
-                <div class="chart-container">
-                    <canvas id="priceChart"></canvas>
-                </div>
-                <div class="metric">
-                    <span class="metric-label">Current Price:</span>
-                    <span class="metric-value" id="current-price">--</span>
-                </div>
-                <div class="metric">
-                    <span class="metric-label">Pair:</span>
-                    <span class="metric-value" id="pair">--</span>
-                </div>
-            </div>
-            <div class="card">
-                <h2>Bot Status</h2>
-                <div class="metric">
-                    <span class="metric-label">Status:</span>
-                    <span class="metric-value" id="bot-status">--</span>
-                </div>
-                <div class="metric">
-                    <span class="metric-label">Mode:</span>
-                    <span class="metric-value" id="mode">--</span>
-                </div>
-                <div class="metric">
-                    <span class="metric-label">Last Update:</span>
-                    <span class="metric-value" id="last-update" style="font-size: 14px;">--</span>
-                </div>
-                <div class="metric">
-                    <span class="metric-label">Total Trades:</span>
-                    <span class="metric-value" id="total-trades">0</span>
-                </div>
-                <div class="metric">
-                    <span class="metric-label">Buy Price:</span>
-                    <span class="metric-value" id="buy-price">--</span>
-                </div>
-                <div class="metric">
-                    <span class="metric-label">Current Bid:</span>
-                    <span class="metric-value" id="current-bid">--</span>
-                </div>
-                <div class="metric">
-                    <span class="metric-label">Current Value (NGN):</span>
-                    <span class="metric-value" id="current-value">--</span>
-                </div>
-                <div class="metric">
-                    <span class="metric-label">Profit (NGN):</span>
-                    <span class="metric-value" id="profit-ngn">--</span>
-                </div>
-                <div class="metric">
-                    <span class="metric-label">Profit (%):</span>
-                    <span class="metric-value" id="profit-pct">--</span>
-                </div>
-                <div class="metric">
-                    <span class="metric-label">Total P&L (NGN):</span>
-                    <span class="metric-value" id="total-pnl-ngn">--</span>
-                </div>
-                <div class="metric">
-                    <span class="metric-label">Today's P&L (NGN):</span>
-                    <span class="metric-value" id="daily-pnl-ngn">--</span>
-                </div>
-                <div class="metric">
-                    <span class="metric-label">Auto-Sell Target (%):</span>
-                    <span class="metric-value" id="auto-sell-target">--</span>
-                </div>
-            </div>
-            <div class="card">
-                <h2>⚡ Auto-Sell Monitor</h2>
-                <div style="display:flex;gap:15px;align-items:center;flex-wrap:wrap;">
-                    <div>
-                        <button id="autosell-toggle" class="primary" onclick="toggleAutoSell()" style="padding:10px 20px;font-size:15px;">▶ Start Auto-Sell</button>
-                    </div>
-                    <div style="flex:1;min-width:200px;">
-                        <label>Target Profit %:</label>
-                        <div style="display:flex;gap:8px;align-items:center;">
-                            <input id="autosell-target" type="number" step="0.1" value="2.0" style="flex:1;min-width:80px;" />
-                            <span id="autosell-status-badge" style="padding:5px 10px;border-radius:4px;background:#ddd;color:#666;font-size:12px;font-weight:bold;">● STOPPED</span>
-                        </div>
-                    </div>
-                </div>
-                <div id="autosell-live-monitor" style="margin-top:15px;padding:12px;background:#f9f9f9;border-radius:5px;display:none;">
-                    <h3 style="margin:0 0 10px 0;color:#666;font-size:14px;">📊 Live Monitoring</h3>
-                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:13px;">
-                        <div><span style="color:#999;">Pair:</span> <strong id="autosell-pair">--</strong></div>
-                        <div><span style="color:#999;">Volume:</span> <strong id="autosell-volume">-- </strong></div>
-                        <div><span style="color:#999;">Buy Price:</span> <strong id="autosell-buy-price">--</strong></div>
-                        <div><span style="color:#999;">Current Bid:</span> <strong id="autosell-bid">--</strong></div>
-                        <div><span style="color:#999;">Current Value:</span> <strong id="autosell-current-value">--</strong></div>
-                        <div><span style="color:#999;">Profit (NGN):</span> <strong id="autosell-profit-ngn" style="color:#4CAF50;">--</strong></div>
-                        <div style="grid-column:1/-1;"><span style="color:#999;">Profit %:</span> <strong id="autosell-profit-pct" style="color:#4CAF50;font-size:16px;">--</strong></div>
-                    </div>
-                </div>
-                <div id="autosell-message" style="margin-top:10px;"></div>
-            </div>
 
-            <div class="card">
-                <h2>Manual Trade</h2>
-                <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
-                    <div style="flex:1;min-width:160px;">
-                        <label>Pair</label>
-                        <input id="manual-pair" type="text" value="USDTNGN" placeholder="e.g. XRPNGN or BTCNGN" />
-                    </div>
-                    <div style="min-width:120px;">
-                        <label>Side</label>
-                        <select id="manual-side">
-                            <option value="buy">Buy</option>
-                            <option value="sell">Sell</option>
-                        </select>
-                    </div>
-                    <div style="flex:1;min-width:120px;">
-                        <label>Amount</label>
-                        <input id="manual-amount" type="number" step="0.0001" placeholder="volume" />
-                    </div>
-                    <div style="flex:1;min-width:120px;">
-                        <label>Price (optional)</label>
-                        <input id="manual-price" type="number" step="0.01" placeholder="leave empty for market-like" />
-                    </div>
-                    <div style="min-width:140px;">
-                        <label>Order Type</label>
-                        <select id="manual-order-type">
-                            <option value="limit">Limit</option>
-                            <option value="market">Market</option>
-                        </select>
-                    </div>
-                    <div style="min-width:160px;display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-end;">
-                        <label style="visibility:hidden">dry</label>
-                        <label style="font-size:13px;"><input type="checkbox" id="manual-dry" /> Dry run (simulate)</label>
-                    </div>
-                </div>
-                <div style="margin-top:10px; display:flex; gap:10px;">
-                    <button class="primary" onclick="placeManualTrade()">▶ Place Trade</button>
-                    <button class="secondary" onclick="document.getElementById('manual-pair').value='USDTNGN'; document.getElementById('manual-amount').value=''; document.getElementById('manual-price').value='';">Reset</button>
-                </div>
-                <div id="trade-message" style="margin-top:8px;"></div>
-            </div>
-        </div>
-        
-        <div class="card full">
-            <h2>Recent Trades</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Time</th>
-                        <th>Action</th>
-                        <th>Price</th>
-                        <th>Volume</th>
-                    </tr>
-                </thead>
-                <tbody id="trades-body">
-                    <tr><td colspan="4" style="text-align: center; color: #999;">No trades yet</td></tr>
-                </tbody>
-            </table>
-            <div class="refresh-info">Refreshing every 3 seconds...</div>
-        </div>
-        </div>
-        
-        <!-- Monitoring Tab -->
-        <div id="monitoring" class="tab-content">
-            <div class="card">
-                <h2>📍 Active Trades Monitoring</h2>
-                <div style="margin-bottom: 15px;">
-                    <button onclick="loadMonitoringTrades()" style="background:#2196F3;color:white;padding:10px 20px;border:none;border-radius:5px;cursor:pointer;">🔄 Refresh Trades</button>
-                </div>
-                
-                <!-- Active Positions Section -->
-                <div style="margin-bottom: 20px;">
-                    <h3 style="color:#666;border-bottom:2px solid #ddd;padding-bottom:10px;">🟢 Active Positions</h3>
-                    <div id="active-positions" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:15px;">
-                        <div style="grid-column:1/-1;text-align:center;color:#999;padding:20px;">Loading positions...</div>
-                    </div>
-                </div>
-                
-                <!-- Recent Buy Trades -->
-                <div style="margin-bottom: 20px;">
-                    <h3 style="color:#666;border-bottom:2px solid #ddd;padding-bottom:10px;">📥 Recent Buy Trades</h3>
-                    <table style="width:100%;border-collapse:collapse;">
-                        <thead>
-                            <tr style="background:#f5f5f5;border-bottom:2px solid #ddd;">
-                                <th style="padding:10px;text-align:left;">Timestamp</th>
-                                <th style="padding:10px;text-align:left;">Pair</th>
-                                <th style="padding:10px;text-align:right;">Price</th>
-                                <th style="padding:10px;text-align:right;">Volume</th>
-                                <th style="padding:10px;text-align:right;">Total NGN</th>
-                            </tr>
-                        </thead>
-                        <tbody id="buy-trades-body">
-                            <tr><td colspan="5" style="text-align:center;color:#999;padding:20px;">Loading...</td></tr>
-                        </tbody>
-                    </table>
-                </div>
-                
-                <!-- Recent Sell Trades -->
-                <div>
-                    <h3 style="color:#666;border-bottom:2px solid #ddd;padding-bottom:10px;">📤 Recent Sell Trades</h3>
-                    <table style="width:100%;border-collapse:collapse;">
-                        <thead>
-                            <tr style="background:#f5f5f5;border-bottom:2px solid #ddd;">
-                                <th style="padding:10px;text-align:left;">Timestamp</th>
-                                <th style="padding:10px;text-align:left;">Pair</th>
-                                <th style="padding:10px;text-align:right;">Price</th>
-                                <th style="padding:10px;text-align:right;">Volume</th>
-                                <th style="padding:10px;text-align:right;">Total NGN</th>
-                            </tr>
-                        </thead>
-                        <tbody id="sell-trades-body">
-                            <tr><td colspan="5" style="text-align:center;color:#999;padding:20px;">Loading...</td></tr>
-                        </tbody>
-                    </table>
-                </div>
-                
-                <!-- All Trades Summary -->
-                <div style="margin-top:20px;padding:15px;background:#f0f7ff;border-radius:8px;border-left:4px solid #2196F3;">
-                    <h3 style="margin-top:0;color:#1976d2;">📊 All Trades Summary</h3>
-                    <div id="trades-summary" style="color:#555;font-size:14px;">
-                        <p>Total Trades: <strong id="total-trades-count">0</strong></p>
-                        <p>Buy Trades: <strong id="buy-trades-count">0</strong></p>
-                        <p>Sell Trades: <strong id="sell-trades-count">0</strong></p>
-                    </div>
-                </div>
-        </div>
-        
-        <!-- Trade Details Modal -->
-        <div id="trade-details-modal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);z-index:1000;justify-content:center;align-items:center;">
-            <div style="background:white;border-radius:10px;padding:30px;max-width:600px;width:90%;box-shadow:0 4px 20px rgba(0,0,0,0.3);max-height:80vh;overflow-y:auto;">
-                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;border-bottom:2px solid #f0f0f0;padding-bottom:15px;">
-                    <h2 id="modal-title" style="margin:0;color:#333;">Trade Details</h2>
-                    <button onclick="closeTradeModal()" style="background:none;border:none;font-size:24px;cursor:pointer;color:#999;">&times;</button>
-                </div>
-                <div id="modal-content" style="color:#555;line-height:1.8;"></div>
-                <div style="margin-top:20px;text-align:right;">
-                    <button onclick="closeTradeModal()" style="background:#2196F3;color:white;padding:10px 20px;border:none;border-radius:5px;cursor:pointer;">Close</button>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Strategy Tab -->
-        <div id="strategy" class="tab-content">
-            <div class="card">
-                <h2>⚙️ Smart Trading Strategy Configuration</h2>
-                <div class="config-grid">
-                    <div class="config-input">
-                        <label for="coin-select">Trading Pair:</label>
-                        <select id="coin-select">
-                            <option value="USDTNGN">USDTNGN</option>
-                            <option value="BTCNGN">BTCNGN</option>
-                            <option value="ETHNGN">ETHNGN</option>
+        /* Input groups */            color: #0c5460;
+
+        .input-group{display:flex;gap:12px;align-items:flex-end}        }
+
+        .input-group .form-group{flex:1;margin-bottom:0}        
+
+        .channel-status {
+
+        /* Status indicators */            display: flex;
+
+        .status{display:inline-flex;align-items:center;gap:8px;padding:4px 12px;border-radius:12px;font-size:12px;font-weight:600}            align-items: center;
+
+        .status-running{background:#d4edda;color:#155724}            gap: 10px;
+
+        .status-live{background:#d1ecf1;color:#0c5460}            padding: 10px;
+
+        .status-stopped{background:#f8d7da;color:#721c24}            background: #f5f5f5;
+
+            border-radius: 5px;
+
+        /* Lists */            margin-bottom: 10px;
+
+        .status-list{display:flex;flex-direction:column;gap:12px}        }
+
+        .status-item{        
+
+            display:flex;        .channel-status.enabled {
+
+            justify-content:space-between;            background: #d4edda;
+
+            align-items:center;        }
+
+            padding:12px;        
+
+            background:#f9fafb;        .channel-status.disabled {
+
+            border-radius:6px;            background: #f8d7da;
+
+            border-left:4px solid var(--border);        }
+
+        }        
+
+        .status-label{font-size:13px;color:var(--muted)}        <style>
+
+        .status-value{font-weight:700;color:var(--primary)}            :root{--nav-bg:#123b7a;--accent:#2a6fb8;--muted:#6b7a93;--card-bg:#ffffff}
+
+            *{box-sizing:border-box}
+
+        /* Tables */            body{margin:0;font-family:Segoe UI,Roboto,Arial,sans-serif;background:linear-gradient(180deg,#1f3b6b 0%,#2a4f7f 100%);color:#123}
+
+        table{width:100%;border-collapse:collapse}
+
+        th{            /* Top header */
+
+            background:var(--primary);            .topbar{background:var(--nav-bg);color:#fff;padding:18px 20px;border-bottom-left-radius:8px;border-bottom-right-radius:8px}
+
+            color:#fff;            .topbar .inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:12px}
+
+            padding:12px;            .brand{display:flex;align-items:center;gap:12px;font-weight:800;font-size:20px}
+
+            text-align:left;            .brand .logo{width:40px;height:40px;border-radius:8px;background:#fff;display:flex;align-items:center;justify-content:center;color:var(--nav-bg);font-size:20px}
+
+            font-weight:600;            .live-btn{background:#37b24d;color:#fff;padding:8px 14px;border-radius:20px;font-weight:700}
+
+            font-size:13px;
+
+        }            /* Nav pills */
+
+        td{padding:12px;border-bottom:1px solid var(--border)}            .nav-wrap{max-width:1200px;margin:18px auto;padding:0 12px}
+
+        tr:hover{background:#f9fafb}            .nav-pill{background:#fff;border-radius:10px;padding:8px 12px;display:flex;gap:10px;align-items:center;border:1px solid rgba(255,255,255,0.06)}
+
+            .nav-link{padding:10px 14px;border-radius:8px;background:transparent;border:none;cursor:pointer;font-weight:700;color:#2a4b6a}
+
+        /* Charts container */            .nav-link.active{background:linear-gradient(180deg,#f6fbff,#fff);box-shadow:inset 0 -2px 0 var(--accent);color:var(--accent)}
+
+        .chart-container{
+
+            height:300px;            /* Content area */
+
+            background:linear-gradient(135deg,#f9fafb 0%,#ffffff 100%);            .content{max-width:1200px;margin:18px auto;padding:18px;min-height:360px}
+
+            border:1px solid var(--border);
+
+            border-radius:8px;            /* Dashboard grid */
+
+            display:flex;            .dashboard-grid{display:grid;grid-template-columns:1fr 380px;gap:18px}
+
+            align-items:center;            @media (max-width:980px){.dashboard-grid{grid-template-columns:1fr}}
+
+            justify-content:center;
+
+            color:var(--muted);            .card{background:var(--card-bg);border-radius:8px;padding:16px;box-shadow:0 6px 18px rgba(9,30,66,0.12);border:1px solid rgba(10,34,73,0.06)}
+
+            font-size:14px;            .card + .card{margin-top:8px}
+
+            margin-bottom:12px;            .card-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+
+        }            .card h3{margin:0;font-size:18px;color:var(--nav-bg)}
+
+
+
+        /* Helpers */            .chart-box{height:220px;background:linear-gradient(180deg,#fff,#fafcff);border-radius:6px;border:1px solid #e6eef8;padding:8px}
+
+        .text-muted{color:var(--muted)}
+
+        .text-small{font-size:12px}            /* Bot status list */
+
+        .text-success{color:var(--success)}            .status-list{display:flex;flex-direction:column;gap:10px}
+
+        .text-danger{color:var(--danger)}            .status-item{display:flex;justify-content:space-between;padding:12px;background:#f6f8fb;border-radius:6px}
+
+        .text-warning{color:var(--warning)}            .status-item strong{color:var(--nav-bg)}
+
+
+
+        /* Content section visibility */            /* Controls */
+
+        .content-section{display:none}            .btn{display:inline-block;background:var(--nav-bg);color:#fff;padding:8px 12px;border-radius:6px;border:none;cursor:pointer;font-weight:700}
+
+        .content-section.active{display:block}            .btn.secondary{background:#fff;color:var(--nav-bg);border:1px solid rgba(0,0,0,0.06)}
+
+
+
+        /* Responsive */            /* Two-column row under top */
+
+        @media (max-width:768px){            .row{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:18px}
+
+            .page{padding:16px}            @media (max-width:980px){.row{grid-template-columns:1fr}}
+
+            .header{flex-direction:column;text-align:center}
+
+            .grid-2{grid-template-columns:1fr}            /* Recent trades table */
+
+            .nav{flex-direction:column}            .table-wrap{margin-top:18px}
+
+        }            table.trades{width:100%;border-collapse:collapse}
+
+    </style>            table.trades thead th{background:var(--nav-bg);color:#fff;padding:12px;text-align:left}
+
+</head>            table.trades td{padding:12px;border-bottom:1px solid #eef3fb}
+
+<body>
+
+<div class="page">        </style>
+
+    <!-- Header -->                        <label for="pairsSelect" style="font-size:12px;font-weight:bold;">Track Pairs:</label>
+
+    <div class="header">                        <select id="pairsSelect" multiple size="4" style="min-width:140px;">
+
+        <div class="header-title">📊 Luno Trading Bot</div>                            <option value="USDTNGN">USDTNGN</option>
+
+        <div class="header-badge">LIVE TRADING</div>                            <option value="BTCNGN">BTCNGN</option>
+
+    </div>                            <option value="ETHNGN">ETHNGN</option>
+
                             <option value="SOLNGN">SOLNGN</option>
-                            <option value="XRPNGN">XRPNGN</option>
+
+    <!-- Navigation -->                            <option value="XRPNGN">XRPNGN</option>
+
+    <div class="nav" role="tablist">                            <option value="USDCNGN">USDCNGN</option>
+
+        <button class="nav-link active" data-tab="dashboard" onclick="switchTab('dashboard', this)">📊 Dashboard</button>                        </select>
+
+        <button class="nav-link" data-tab="strategy" onclick="switchTab('strategy', this)">🎯 Strategy</button>                        <button class="secondary" onclick="applyTrackedPairs()" style="padding:6px 10px;border-radius:4px;">Track Selected</button>
+
+        <button class="nav-link" data-tab="trends" onclick="switchTab('trends', this)">📈 Trends & Signals</button>                        <button class="secondary" onclick="selectAllAndTrack()" style="padding:6px 10px;border-radius:4px; margin-left:6px;">Track All</button>
+
+        <button class="nav-link" data-tab="compound" onclick="switchTab('compound', this)">💰 Compound Mode</button>                    </div>
+
+        <button class="nav-link" data-tab="alerts" onclick="switchTab('alerts', this)">🔔 Alerts</button>                    <div style="display:flex;align-items:center;gap:8px;">
+
+        <button class="nav-link" data-tab="api" onclick="switchTab('api', this)">🔒 API Credentials</button>                        <label for="chartType" style="font-size:12px;font-weight:bold;">Chart Type:</label>
+
+    </div>                        <select id="chartType" style="min-width:120px;">
+
+                            <option value="line">Line</option>
+
+    <!-- Dashboard Tab -->                            <option value="candles">Candles + Volume (single pair)</option>
+
+    <div id="dashboard" class="content-section active">                        </select>
+
+        <div class="layout">                        <label for="candleInterval" style="font-size:12px;font-weight:bold;">Candle:</label>
+
+            <!-- Quick Stats Row -->                        <select id="candleInterval" style="min-width:80px;"><option value="60000">1m</option><option value="300000">5m</option><option value="900000">15m</option></select>
+
+            <div class="section full-width">                    </div>
+
+                <div class="section-title">Quick Stats</div>                </div>
+
+                <div class="metrics">                <div class="chart-container">
+
+                    <div class="metric-card">                    <canvas id="priceChart"></canvas>
+
+                        <div class="metric-label">Bot Status</div>                </div>
+
+                        <div class="metric-value" id="stat-status">RUNNING</div>                <div class="metric">
+
+                    </div>                    <span class="metric-label">Current Price:</span>
+
+                    <div class="metric-card">                    <span class="metric-value" id="current-price">--</span>
+
+                        <div class="metric-label">Mode</div>                </div>
+
+                        <div class="metric-value text-success" id="stat-mode">LIVE</div>                <div class="metric">
+
+                    </div>                    <span class="metric-label">Pair:</span>
+
+                    <div class="metric-card">                    <span class="metric-value" id="pair">--</span>
+
+                        <div class="metric-label">Total Trades</div>                </div>
+
+                        <div class="metric-value" id="stat-trades">0</div>            </div>
+
+                    </div>            <div class="card">
+
+                    <div class="metric-card">                <h2>Bot Status</h2>
+
+                        <div class="metric-label">Current Price</div>                <div class="metric">
+
+                        <div class="metric-value">฿ <span id="stat-price">0.00</span></div>                    <span class="metric-label">Status:</span>
+
+                    </div>                    <span class="metric-value" id="bot-status">--</span>
+
+                </div>                </div>
+
+            </div>                <div class="metric">
+
+                    <span class="metric-label">Mode:</span>
+
+            <!-- Live Price Chart -->                    <span class="metric-value" id="mode">--</span>
+
+            <div class="section">                </div>
+
+                <div class="section-title">Live Price</div>                <div class="metric">
+
+                <div class="chart-container">                    <span class="metric-label">Last Update:</span>
+
+                    <div style="text-align:center;padding:40px 0;color:var(--muted)">📈 Chart loading...</div>                    <span class="metric-value" id="last-update" style="font-size: 14px;">--</span>
+
+                </div>                </div>
+
+                <div class="text-muted text-small">Last updated: <span id="chart-updated">--:--:--</span></div>                <div class="metric">
+
+            </div>                    <span class="metric-label">Total Trades:</span>
+
+                    <span class="metric-value" id="total-trades">0</span>
+
+            <!-- Bot Status -->                </div>
+
+            <div class="section">                <div class="metric">
+
+                <div class="section-title">Bot Status</div>                    <span class="metric-label">Buy Price:</span>
+
+                <div class="status-list">                    <span class="metric-value" id="buy-price">--</span>
+
+                    <div class="status-item">                </div>
+
+                        <span class="status-label">Status</span>                <div class="metric">
+
+                        <span class="status-value" id="status-main">RUNNING</span>                    <span class="metric-label">Current Bid:</span>
+
+                    </div>                    <span class="metric-value" id="current-bid">--</span>
+
+                    <div class="status-item">                </div>
+
+                        <span class="status-label">Mode</span>                <div class="metric">
+
+                        <span class="status-value" id="status-mode">🟢 LIVE</span>                    <span class="metric-label">Current Value (NGN):</span>
+
+                    </div>                    <span class="metric-value" id="current-value">--</span>
+
+                    <div class="status-item">                </div>
+
+                        <span class="status-label">Last Update</span>                <div class="metric">
+
+                        <span class="status-value text-muted" id="status-update">--:--:--</span>                    <span class="metric-label">Profit (NGN):</span>
+
+                    </div>                    <span class="metric-value" id="profit-ngn">--</span>
+
+                    <div class="status-item">                </div>
+
+                        <span class="status-label">Buy Price</span>                <div class="metric">
+
+                        <span class="status-value" id="status-buy">0.00</span>                    <span class="metric-label">Profit (%):</span>
+
+                    </div>                    <span class="metric-value" id="profit-pct">--</span>
+
+                    <div class="status-item">                </div>
+
+                        <span class="status-label">Current Bid</span>                <div class="metric">
+
+                        <span class="status-value" id="status-bid">0.00</span>                    <span class="metric-label">Total P&L (NGN):</span>
+
+                    </div>                    <span class="metric-value" id="total-pnl-ngn">--</span>
+
+                    <div class="status-item">                </div>
+
+                        <span class="status-label">Current Value (NGN)</span>                <div class="metric">
+
+                        <span class="status-value" id="status-value">0.00</span>                    <span class="metric-label">Today's P&L (NGN):</span>
+
+                    </div>                    <span class="metric-value" id="daily-pnl-ngn">--</span>
+
+                </div>                </div>
+
+            </div>                <div class="metric">
+
+                    <span class="metric-label">Auto-Sell Target (%):</span>
+
+            <!-- Auto-Sell Monitor -->                    <span class="metric-value" id="auto-sell-target">--</span>
+
+            <div class="section">                </div>
+
+                <div class="section-title">⚡ Auto-Sell Monitor</div>            </div>
+
+                <div class="card">            <div class="card">
+
+                    <div class="input-group">                <h2>⚡ Auto-Sell Monitor</h2>
+
+                        <div class="form-group" style="flex:0 0 auto">                <div style="display:flex;gap:15px;align-items:center;flex-wrap:wrap;">
+
+                            <button class="btn btn-success">▶ Start Auto-Sell</button>                    <div>
+
+                        </div>                        <button id="autosell-toggle" class="primary" onclick="toggleAutoSell()" style="padding:10px 20px;font-size:15px;">▶ Start Auto-Sell</button>
+
+                        <div class="form-group" style="flex:1">                    </div>
+
+                            <label class="form-label">Target Profit %</label>                    <div style="flex:1;min-width:200px;">
+
+                            <input type="number" class="form-input" id="autosell-target" value="2.0" step="0.1" min="0">                        <label>Target Profit %:</label>
+
+                        </div>                        <div style="display:flex;gap:8px;align-items:center;">
+
+                    </div>                            <input id="autosell-target" type="number" step="0.1" value="2.0" style="flex:1;min-width:80px;" />
+
+                </div>                            <span id="autosell-status-badge" style="padding:5px 10px;border-radius:4px;background:#ddd;color:#666;font-size:12px;font-weight:bold;">● STOPPED</span>
+
+                <div class="text-muted text-small">Status: <span class="status status-stopped">● STOPPED</span></div>                        </div>
+
+            </div>                    </div>
+
+                </div>
+
+            <!-- Manual Trade -->                <div id="autosell-live-monitor" style="margin-top:15px;padding:12px;background:#f9f9f9;border-radius:5px;display:none;">
+
+            <div class="section">                    <h3 style="margin:0 0 10px 0;color:#666;font-size:14px;">📊 Live Monitoring</h3>
+
+                <div class="section-title">Manual Trade</div>                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:13px;">
+
+                <div class="form-group">                        <div><span style="color:#999;">Pair:</span> <strong id="autosell-pair">--</strong></div>
+
+                    <label class="form-label">Pair</label>                        <div><span style="color:#999;">Volume:</span> <strong id="autosell-volume">-- </strong></div>
+
+                    <input type="text" class="form-input" placeholder="e.g., USDTNGN" value="USDTNGN">                        <div><span style="color:#999;">Buy Price:</span> <strong id="autosell-buy-price">--</strong></div>
+
+                </div>                        <div><span style="color:#999;">Current Bid:</span> <strong id="autosell-bid">--</strong></div>
+
+                <div class="grid-2" style="margin-bottom:12px">                        <div><span style="color:#999;">Current Value:</span> <strong id="autosell-current-value">--</strong></div>
+
+                    <div class="form-group">                        <div><span style="color:#999;">Profit (NGN):</span> <strong id="autosell-profit-ngn" style="color:#4CAF50;">--</strong></div>
+
+                        <label class="form-label">Side</label>                        <div style="grid-column:1/-1;"><span style="color:#999;">Profit %:</span> <strong id="autosell-profit-pct" style="color:#4CAF50;font-size:16px;">--</strong></div>
+
+                        <select class="form-select">                    </div>
+
+                            <option>Buy</option>                </div>
+
+                            <option>Sell</option>                <div id="autosell-message" style="margin-top:10px;"></div>
+
+                        </select>            </div>
+
+                    </div>
+
+                    <div class="form-group">            <div class="card">
+
+                        <label class="form-label">Amount</label>                <h2>Manual Trade</h2>
+
+                        <input type="number" class="form-input" placeholder="Volume" step="0.0001">                <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
+
+                    </div>                    <div style="flex:1;min-width:160px;">
+
+                </div>                        <label>Pair</label>
+
+                <div class="grid-2" style="margin-bottom:16px">                        <input id="manual-pair" type="text" value="USDTNGN" placeholder="e.g. XRPNGN or BTCNGN" />
+
+                    <div class="form-group">                    </div>
+
+                        <label class="form-label">Price (Optional)</label>                    <div style="min-width:120px;">
+
+                        <input type="number" class="form-input" placeholder="Leave empty for market" step="0.01">                        <label>Side</label>
+
+                    </div>                        <select id="manual-side">
+
+                    <div class="form-group">                            <option value="buy">Buy</option>
+
+                        <label class="form-label">Order Type</label>                            <option value="sell">Sell</option>
+
+                        <select class="form-select">                        </select>
+
+                            <option>Limit</option>                    </div>
+
+                            <option>Market</option>                    <div style="flex:1;min-width:120px;">
+
+                        </select>                        <label>Amount</label>
+
+                    </div>                        <input id="manual-amount" type="number" step="0.0001" placeholder="volume" />
+
+                </div>                    </div>
+
+                <div style="display:flex;gap:12px">                    <div style="flex:1;min-width:120px;">
+
+                    <button class="btn btn-primary">▶ Place Trade</button>                        <label>Price (optional)</label>
+
+                    <button class="btn btn-secondary">Reset</button>                        <input id="manual-price" type="number" step="0.01" placeholder="leave empty for market-like" />
+
+                </div>                    </div>
+
+            </div>                    <div style="min-width:140px;">
+
+                        <label>Order Type</label>
+
+            <!-- Recent Trades -->                        <select id="manual-order-type">
+
+            <div class="section full-width">                            <option value="limit">Limit</option>
+
+                <div class="section-title">Recent Trades</div>                            <option value="market">Market</option>
+
+                <div style="overflow-x:auto">                        </select>
+
+                    <table>                    </div>
+
+                        <thead>                    <div style="min-width:160px;display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-end;">
+
+                            <tr>                        <label style="visibility:hidden">dry</label>
+
+                                <th>Time</th>                        <label style="font-size:13px;"><input type="checkbox" id="manual-dry" /> Dry run (simulate)</label>
+
+                                <th>Action</th>                    </div>
+
+                                <th>Price</th>                </div>
+
+                                <th>Volume</th>                <div style="margin-top:10px; display:flex; gap:10px;">
+
+                            </tr>                    <button class="primary" onclick="placeManualTrade()">▶ Place Trade</button>
+
+                        </thead>                    <button class="secondary" onclick="document.getElementById('manual-pair').value='USDTNGN'; document.getElementById('manual-amount').value=''; document.getElementById('manual-price').value='';">Reset</button>
+
+                        <tbody id="trades-body">                </div>
+
+                            <tr><td colspan="4" style="text-align:center;color:var(--muted)">No trades yet</td></tr>                <div id="trade-message" style="margin-top:8px;"></div>
+
+                        </tbody>            </div>
+
+                    </table>        </div>
+
+                </div>        
+
+            </div>        <div class="card full">
+
+        </div>            <h2>Recent Trades</h2>
+
+    </div>            <table>
+
+                <thead>
+
+    <!-- Strategy Tab -->                    <tr>
+
+    <div id="strategy" class="content-section">                        <th>Time</th>
+
+        <div class="layout">                        <th>Action</th>
+
+            <div class="section full-width">                        <th>Price</th>
+
+                <div class="section-title">⚙️ Smart Trading Strategy Configuration</div>                        <th>Volume</th>
+
+                <div class="grid-2">                    </tr>
+
+                    <div class="form-group">                </thead>
+
+                        <label class="form-label">Trading Pair</label>                <tbody id="recent-trades-body">
+
+                        <select class="form-select">                    <tr><td colspan="4" style="text-align: center; color: #999;">No trades yet</td></tr>
+
+                            <option>USDTNGN</option>                </tbody>
+
+                            <option>BTCNGN</option>            </table>
+
+                            <option>ETHNGN</option>            <div class="refresh-info">Refreshing every 3 seconds...</div>
+
+                            <option>XRPNGN</option>        </div>
+
+                        </select>        </div>
+
+                    </div>        
+
+                    <div class="form-group">        <!-- Monitoring Tab -->
+
+                        <label class="form-label">Buy on Drop %</label>        <div id="monitoring" class="tab-content">
+
+                        <input type="number" class="form-input" value="1" step="0.5" min="0" max="100">            <div class="card">
+
+                    </div>                <h2>📍 Active Trades Monitoring</h2>
+
+                    <div class="form-group">                <div style="margin-bottom: 15px;">
+
+                        <label class="form-label">Sell at Profit %</label>                    <button onclick="loadMonitoringTrades()" style="background:#2196F3;color:white;padding:10px 20px;border:none;border-radius:5px;cursor:pointer;">🔄 Refresh Trades</button>
+
+                        <input type="number" class="form-input" value="2" step="0.5" min="0" max="100">                </div>
+
+                    </div>                
+
+                    <div class="form-group">                <!-- Active Positions Section -->
+
+                        <label class="form-label">Stop Loss %</label>                <div style="margin-bottom: 20px;">
+
+                        <input type="number" class="form-input" value="1" step="0.5" min="0" max="100">                    <h3 style="color:#666;border-bottom:2px solid #ddd;padding-bottom:10px;">🟢 Active Positions</h3>
+
+                    </div>                    <div id="active-positions" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:15px;">
+
+                </div>                        <div style="grid-column:1/-1;text-align:center;color:#999;padding:20px;">Loading positions...</div>
+
+                <div style="display:flex;gap:12px;margin-top:24px">                    </div>
+
+                    <button class="btn btn-primary">💾 Save Config</button>                </div>
+
+                    <button class="btn btn-secondary">🔄 Load Config</button>                
+
+                </div>                <!-- Recent Buy Trades -->
+
+            </div>                <div style="margin-bottom: 20px;">
+
+            <div class="section full-width">                    <h3 style="color:#666;border-bottom:2px solid #ddd;padding-bottom:10px;">📥 Recent Buy Trades</h3>
+
+                <div class="section-title">Strategy Explanation</div>                    <table style="width:100%;border-collapse:collapse;">
+
+                <div style="line-height:1.8;color:var(--muted);font-size:14px">                        <thead>
+
+                    <p><strong>Buy on Drop %:</strong> Automatically buy when price drops this % below moving average</p>                            <tr style="background:#f5f5f5;border-bottom:2px solid #ddd;">
+
+                    <p style="margin-top:12px"><strong>Sell at Profit %:</strong> Automatically sell when profit reaches this %</p>                                <th style="padding:10px;text-align:left;">Timestamp</th>
+
+                    <p style="margin-top:12px"><strong>Stop Loss %:</strong> Automatically sell to minimize losses at this %</p>                                <th style="padding:10px;text-align:left;">Pair</th>
+
+                </div>                                <th style="padding:10px;text-align:right;">Price</th>
+
+            </div>                                <th style="padding:10px;text-align:right;">Volume</th>
+
+        </div>                                <th style="padding:10px;text-align:right;">Total NGN</th>
+
+    </div>                            </tr>
+
+                        </thead>
+
+    <!-- Trends Tab -->                        <tbody id="buy-trades-body">
+
+    <div id="trends" class="content-section">                            <tr><td colspan="5" style="text-align:center;color:#999;padding:20px;">Loading...</td></tr>
+
+        <div class="layout">                        </tbody>
+
+            <div class="section full-width">                    </table>
+
+                <div class="section-title">📊 Trends & Signals</div>                </div>
+
+                <p style="color:var(--muted);text-align:center;padding:40px 0">📈 Trend data loading...</p>                
+
+            </div>                <!-- Recent Sell Trades -->
+
+        </div>                <div>
+
+    </div>                    <h3 style="color:#666;border-bottom:2px solid #ddd;padding-bottom:10px;">📤 Recent Sell Trades</h3>
+
+                    <table style="width:100%;border-collapse:collapse;">
+
+    <!-- Compound Mode Tab -->                        <thead>
+
+    <div id="compound" class="content-section">                            <tr style="background:#f5f5f5;border-bottom:2px solid #ddd;">
+
+        <div class="layout">                                <th style="padding:10px;text-align:left;">Timestamp</th>
+
+            <div class="section full-width">                                <th style="padding:10px;text-align:left;">Pair</th>
+
+                <div class="section-title">💰 Auto Compound & Reinvestment</div>                                <th style="padding:10px;text-align:right;">Price</th>
+
+                <div class="metrics">                                <th style="padding:10px;text-align:right;">Volume</th>
+
+                    <div class="metric-card">                                <th style="padding:10px;text-align:right;">Total NGN</th>
+
+                        <div class="metric-label">Total Profit</div>                            </tr>
+
+                        <div class="metric-value text-success">₦ --</div>                        </thead>
+
+                    </div>                        <tbody id="sell-trades-body">
+
+                    <div class="metric-card">                            <tr><td colspan="5" style="text-align:center;color:#999;padding:20px;">Loading...</td></tr>
+
+                        <div class="metric-label">Total Reinvested</div>                        </tbody>
+
+                        <div class="metric-value text-success">₦ --</div>                    </table>
+
+                    </div>                </div>
+
+                    <div class="metric-card">                
+
+                        <div class="metric-label">Total Savings</div>                <!-- All Trades Summary -->
+
+                        <div class="metric-value">₦ --</div>                <div style="margin-top:20px;padding:15px;background:#f0f7ff;border-radius:8px;border-left:4px solid #2196F3;">
+
+                    </div>                    <h3 style="margin-top:0;color:#1976d2;">📊 All Trades Summary</h3>
+
+                </div>                    <div id="trades-summary" style="color:#555;font-size:14px;">
+
+            </div>                        <p>Total Trades: <strong id="total-trades-count">0</strong></p>
+
+        </div>                        <p>Buy Trades: <strong id="buy-trades-count">0</strong></p>
+
+    </div>                        <p>Sell Trades: <strong id="sell-trades-count">0</strong></p>
+
+                    </div>
+
+    <!-- Alerts Tab -->                </div>
+
+    <div id="alerts" class="content-section">        </div>
+
+        <div class="layout">        
+
+            <div class="section full-width">        <!-- Trade Details Modal -->
+
+                <div class="section-title">🔔 Alerts & Notifications</div>        <div id="trade-details-modal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);z-index:1000;justify-content:center;align-items:center;">
+
+                <p style="color:var(--muted);text-align:center;padding:40px 0">📬 Alert channels will appear here</p>            <div style="background:white;border-radius:10px;padding:30px;max-width:600px;width:90%;box-shadow:0 4px 20px rgba(0,0,0,0.3);max-height:80vh;overflow-y:auto;">
+
+            </div>                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;border-bottom:2px solid #f0f0f0;padding-bottom:15px;">
+
+        </div>                    <h2 id="modal-title" style="margin:0;color:#333;">Trade Details</h2>
+
+    </div>                    <button onclick="closeTradeModal()" style="background:none;border:none;font-size:24px;cursor:pointer;color:#999;">&times;</button>
+
+                </div>
+
+    <!-- API Credentials Tab -->                <div id="modal-content" style="color:#555;line-height:1.8;"></div>
+
+    <div id="api" class="content-section">                <div style="margin-top:20px;text-align:right;">
+
+        <div class="layout">                    <button onclick="closeTradeModal()" style="background:#2196F3;color:white;padding:10px 20px;border:none;border-radius:5px;cursor:pointer;">Close</button>
+
+            <div class="section full-width">                </div>
+
+                <div class="section-title">🔐 API Credentials</div>            </div>
+
+                <div class="grid-2">        </div>
+
+                    <div class="form-group">        
+
+                        <label class="form-label">Luno API Key</label>        <!-- Strategy Tab -->
+
+                        <input type="password" class="form-input" placeholder="Your API Key">        <div id="strategy" class="tab-content">
+
+                    </div>            <div class="card">
+
+                    <div class="form-group">                <h2>⚙️ Smart Trading Strategy Configuration</h2>
+
+                        <label class="form-label">Luno API Secret</label>                <div class="config-grid">
+
+                        <input type="password" class="form-input" placeholder="Your API Secret">                    <div class="config-input">
+
+                    </div>                        <label for="coin-select">Trading Pair:</label>
+
+                </div>                        <select id="coin-select">
+
+                <button class="btn btn-primary" style="margin-top:16px">💾 Save Credentials</button>                            <option value="USDTNGN">USDTNGN</option>
+
+            </div>                            <option value="BTCNGN">BTCNGN</option>
+
+        </div>                            <option value="ETHNGN">ETHNGN</option>
+
+    </div>                            <option value="SOLNGN">SOLNGN</option>
+
+</div>                            <option value="XRPNGN">XRPNGN</option>
+
                             <option value="USDCNGN">USDCNGN</option>
-                        </select>
-                    </div>
-                    <div class="config-input">
-                        <label for="buy-drop-pct">Buy on Drop %:</label>
-                        <input type="number" id="buy-drop-pct" placeholder="3.0" step="0.5" min="0" max="100">
-                    </div>
-                    <div class="config-input">
-                        <label for="sell-profit-pct">Sell at Profit %:</label>
-                        <input type="number" id="sell-profit-pct" placeholder="10.0" step="0.5" min="0" max="100">
-                    </div>
-                    <div class="config-input">
-                        <label for="stop-loss-pct">Stop Loss %:</label>
-                        <input type="number" id="stop-loss-pct" placeholder="5.0" step="0.5" min="0" max="100">
-                    </div>
-                </div>
+
+<script>                        </select>
+
+    // Tab switching                    </div>
+
+    function switchTab(tabId, button) {                    <div class="config-input">
+
+        // Hide all sections                        <label for="buy-drop-pct">Buy on Drop %:</label>
+
+        document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));                        <input type="number" id="buy-drop-pct" placeholder="3.0" step="0.5" min="0" max="100">
+
+        // Remove active from all nav links                    </div>
+
+        document.querySelectorAll('.nav-link').forEach(b => b.classList.remove('active'));                    <div class="config-input">
+
+                                <label for="sell-profit-pct">Sell at Profit %:</label>
+
+        // Show selected section                        <input type="number" id="sell-profit-pct" placeholder="10.0" step="0.5" min="0" max="100">
+
+        const section = document.getElementById(tabId);                    </div>
+
+        if (section) {                    <div class="config-input">
+
+            section.classList.add('active');                        <label for="stop-loss-pct">Stop Loss %:</label>
+
+            button.classList.add('active');                        <input type="number" id="stop-loss-pct" placeholder="5.0" step="0.5" min="0" max="100">
+
+        }                    </div>
+
+    }                </div>
+
                 <div class="button-group">
-                    <button class="primary" onclick="saveStrategyConfig()">💾 Save Config</button>
-                    <button class="secondary" onclick="loadStrategyConfig()">🔄 Load Config</button>
-                </div>
-                <div id="strategy-message" style="margin-top: 10px;"></div>
-                <div style="margin-top: 20px; padding: 15px; background: #f5f5f5; border-radius: 5px; font-size: 13px; color: #666;">
-                    <strong>Strategy Explanation:</strong><br>
-                    • <strong>Buy on Drop %:</strong> Automatically buy when price drops this % below moving average<br>
+
+    // Demo data updates                    <button class="primary" onclick="saveStrategyConfig()">💾 Save Config</button>
+
+    function updateDemoData() {                    <button class="secondary" onclick="loadStrategyConfig()">🔄 Load Config</button>
+
+        const price = (1400 + Math.random() * 100).toFixed(2);                </div>
+
+        const bid = (parseFloat(price) - 0.5).toFixed(2);                <div id="strategy-message" style="margin-top: 10px;"></div>
+
+        const buy = (parseFloat(price) - 1.2).toFixed(2);                <div style="margin-top: 20px; padding: 15px; background: #f5f5f5; border-radius: 5px; font-size: 13px; color: #666;">
+
+        const value = (parseFloat(price) * 0.1).toFixed(2);                    <strong>Strategy Explanation:</strong><br>
+
+        const time = new Date().toLocaleTimeString();                    • <strong>Buy on Drop %:</strong> Automatically buy when price drops this % below moving average<br>
+
                     • <strong>Sell at Profit %:</strong> Automatically sell when profit reaches this %<br>
-                    • <strong>Stop Loss %:</strong> Automatically sell to minimize losses at this %<br>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Trends & Signals Tab -->
-        <div id="trends" class="tab-content">
-            <div class="card">
-                <h2>📊 AI Trend Analysis & Signals</h2>
+
+        // Update dashboard metrics                    • <strong>Stop Loss %:</strong> Automatically sell to minimize losses at this %<br>
+
+        document.getElementById('stat-price').textContent = price;                </div>
+
+        document.getElementById('status-main').textContent = 'RUNNING';            </div>
+
+        document.getElementById('status-mode').textContent = '🟢 LIVE';        </div>
+
+        document.getElementById('status-update').textContent = time;        
+
+        document.getElementById('status-buy').textContent = buy;        <!-- Trends & Signals Tab -->
+
+        document.getElementById('status-bid').textContent = bid;        <div id="trends" class="tab-content">
+
+        document.getElementById('status-value').textContent = value;            <div class="card">
+
+        document.getElementById('chart-updated').textContent = time;                <h2>📊 AI Trend Analysis & Signals</h2>
+
                 <div class="metric">
-                    <span class="metric-label">Best Buy Opportunity:</span>
-                    <span class="metric-value" id="best-buy-coin">--</span>
-                </div>
-                <div id="trend-signals">
-                    <div style="text-align: center; color: #999; padding: 20px;">Loading trend signals...</div>
-                </div>
-                <div class="button-group" style="margin-top: 20px;">
-                    <button class="primary" onclick="updateTrendSignals()">🔄 Refresh Signals</button>
-                </div>
-                <div style="margin-top: 20px; padding: 15px; background: #f5f5f5; border-radius: 5px; font-size: 13px; color: #666;">
-                    <strong>Signals Explanation:</strong><br>
-                    • <strong>UPTREND:</strong> Price rising - good time to sell or hold<br>
-                    • <strong>DOWNTREND:</strong> Price falling - good time to buy<br>
-                    • <strong>Signal Strength:</strong> Confidence level (0-100%) of the trend<br>
-                </div>
-            </div>
-        </div>
+
+        // Update trades table                    <span class="metric-label">Best Buy Opportunity:</span>
+
+        const tbody = document.getElementById('trades-body');                    <span class="metric-value" id="best-buy-coin">--</span>
+
+        tbody.innerHTML = '';                </div>
+
+        const actions = ['BUY', 'BUY', 'SELL'];                <div id="trend-signals">
+
+        for (let i = 0; i < 3; i++) {                    <div style="text-align: center; color: #999; padding: 20px;">Loading trend signals...</div>
+
+            const tr = document.createElement('tr');                </div>
+
+            const tradePrice = (1450 + Math.random() * 10).toFixed(2);                <div class="button-group" style="margin-top: 20px;">
+
+            const tradeVol = (0.001 * Math.random() + 0.01).toFixed(4);                    <button class="primary" onclick="updateTrendSignals()">🔄 Refresh Signals</button>
+
+            tr.innerHTML = `                </div>
+
+                <td>${new Date(Date.now() - i * 3600000).toLocaleTimeString()}</td>                <div style="margin-top: 20px; padding: 15px; background: #f5f5f5; border-radius: 5px; font-size: 13px; color: #666;">
+
+                <td><strong style="color:${actions[i] === 'BUY' ? 'var(--success)' : 'var(--danger)'}">${actions[i]}</strong></td>                    <strong>Signals Explanation:</strong><br>
+
+                <td>฿ ${tradePrice}</td>                    • <strong>UPTREND:</strong> Price rising - good time to sell or hold<br>
+
+                <td>${tradeVol}</td>                    • <strong>DOWNTREND:</strong> Price falling - good time to buy<br>
+
+            `;                    • <strong>Signal Strength:</strong> Confidence level (0-100%) of the trend<br>
+
+            tbody.appendChild(tr);                </div>
+
+        }            </div>
+
+    }        </div>
+
         
-        <!-- TEST TAB - Simple Content Test -->
-        <div id="test_tab" class="tab-content">
-            <div class="card">
-                <h2>✅ TEST TAB</h2>
-                <p style="font-size: 18px; color: #2a5298; margin: 20px 0;">
-                    <strong>If you can see this, the tab system works!</strong>
-                </p>
-                <div style="background: #f0f0f0; padding: 20px; border-radius: 8px; margin: 20px 0;">
+
+    // Initialize        <!-- TEST TAB - Simple Content Test -->
+
+    document.addEventListener('DOMContentLoaded', () => {        <div id="test_tab" class="tab-content">
+
+        updateDemoData();            <div class="card">
+
+        setInterval(updateDemoData, 3000);                <h2>✅ TEST TAB</h2>
+
+    });                <p style="font-size: 18px; color: #2a5298; margin: 20px 0;">
+
+</script>                    <strong>If you can see this, the tab system works!</strong>
+
+</body>                </p>
+
+</html>                <div style="background: #f0f0f0; padding: 20px; border-radius: 8px; margin: 20px 0;">
+
                     <p>This is a simple test tab with just plain HTML content.</p>
                     <p>If this displays, it means:</p>
                     <ul style="margin-left: 20px; margin-top: 10px;">
