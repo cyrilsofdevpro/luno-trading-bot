@@ -64,11 +64,28 @@ class LunoClient:
         return resp.json()
 
     def get_balances(self) -> dict:
-        """Return account balances (requires auth)."""
+        """Return account balances (requires auth).
+        
+        If the Luno API returns 404 or 403, this usually means:
+        - The API key/secret are incorrect or expired
+        - The account does not have permission to access this endpoint
+        - The endpoint URL is wrong (e.g., using /balance instead of /balances)
+        """
         url = f"{BASE_URL}/balances"
-        resp = requests.get(url, auth=self.auth)
-        resp.raise_for_status()
-        return resp.json()
+        try:
+            resp = requests.get(url, auth=self.auth, timeout=10)
+            resp.raise_for_status()
+            return resp.json()
+        except requests.exceptions.HTTPError as e:
+            if resp.status_code == 404:
+                LOGGER.error(f"404 Not Found on {url}. Check that your API credentials are valid and have balances access. Error: {e}")
+                raise RuntimeError(f"Luno API: 404 Not Found. Verify API credentials and permissions.") from e
+            elif resp.status_code == 403:
+                LOGGER.error(f"403 Forbidden on {url}. Your API key may not have permission to access balances. Error: {e}")
+                raise RuntimeError(f"Luno API: 403 Forbidden. Check API key permissions.") from e
+            else:
+                LOGGER.error(f"HTTP {resp.status_code} error fetching balances: {e}")
+                raise
 
     def place_order(self, pair: str, side: str, volume: float, price: float, order_type: str = "limit") -> dict:
         """Place an order (limit by default). Side = 'buy' or 'sell'.

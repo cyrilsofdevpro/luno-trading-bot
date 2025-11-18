@@ -9,6 +9,7 @@ finta>=1.0.0
 # Web framework (for dashboard - optional for Railway bot)
 flask>=2.0.0
 SQLAlchemy>=1.4.0
+bcrypt>=4.0.0
 
 # Testing (optional for deployment)
 pytest>=7.0.0
