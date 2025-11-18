@@ -90,8 +90,8 @@ def run_bot():
                 
                 logger.info(f"Pair: {active_coin} | Price: {last_price:.2f} | Bid: {bid:.2f}")
                 
-                # Get account balance
-                balances = client.get_balance()
+                # Get account balances (LunoClient provides get_balances)
+                balances = client.get_balances()
                 logger.debug(f"Balances: {balances}")
                 
                 # Execute strategy logic (buy/sell signals)
