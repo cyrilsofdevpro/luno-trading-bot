@@ -20,5 +20,8 @@ psutil>=5.9.0
 # Production server (optional - can use gunicorn)
 gunicorn>=20.1.0
 
+# Procfile manager for Docker and local multi-process runs
+honcho>=1.1.0
+
 # Additional utilities
 pytz>=2022.0
