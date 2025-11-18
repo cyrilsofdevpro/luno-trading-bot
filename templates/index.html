@@ -1168,11 +1168,14 @@
             html += '<tr style="background: #e0e0e0;"><th style="padding: 8px; text-align: left;">Asset</th><th style="padding: 8px; text-align: right;">Available</th><th style="padding: 8px; text-align: right;">Reserved</th><th style="padding: 8px; text-align: right;">Total</th></tr>';
             
             balances.forEach(b => {
+                const bal = parseFloat(b.balance || 0).toFixed(8);
+                const res = parseFloat(b.reserved || 0).toFixed(8);
+                const tot = parseFloat(b.total || (b.balance || 0)).toFixed(8);
                 html += `<tr style="border-bottom: 1px solid #ddd;">
                     <td style="padding: 8px;">${b.asset}</td>
-                    <td style="padding: 8px; text-align: right;">${b.balance.toFixed(8)}</td>
-                    <td style="padding: 8px; text-align: right;">${b.reserved.toFixed(8)}</td>
-                    <td style="padding: 8px; text-align: right; font-weight: bold;">${b.total.toFixed(8)}</td>
+                    <td style="padding: 8px; text-align: right;">${bal}</td>
+                    <td style="padding: 8px; text-align: right;">${res}</td>
+                    <td style="padding: 8px; text-align: right; font-weight: bold;">${tot}</td>
                 </tr>`;
             });
             
