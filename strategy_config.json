@@ -1,0 +1,47 @@
+{
+  "active_coin": "BTCNGN",
+  "coins": {
+    "BTCNGN": {
+      "buy_drop_pct": 3.0,
+      "sell_profit_pct": 10.0,
+      "stop_loss_pct": 5.0,
+      "compound_reinvest_pct": 60.0,
+      "enabled": true
+    },
+    "XRPNGN": {
+      "buy_drop_pct": 3.0,
+      "sell_profit_pct": 10.0,
+      "stop_loss_pct": 5.0,
+      "compound_reinvest_pct": 60.0,
+      "enabled": true
+    },
+    "SOLNGN": {
+      "buy_drop_pct": 3.0,
+      "sell_profit_pct": 10.0,
+      "stop_loss_pct": 5.0,
+      "compound_reinvest_pct": 60.0,
+      "enabled": true
+    },
+    "ETHNGN": {
+      "buy_drop_pct": 3.0,
+      "sell_profit_pct": 10.0,
+      "stop_loss_pct": 5.0,
+      "compound_reinvest_pct": 60.0,
+      "enabled": true
+    },
+    "USDCNGN": {
+      "buy_drop_pct": 3.0,
+      "sell_profit_pct": 10.0,
+      "stop_loss_pct": 5.0,
+      "compound_reinvest_pct": 60.0,
+      "enabled": true
+    },
+    "USDTNGN": {
+      "buy_drop_pct": 1,
+      "sell_profit_pct": 3,
+      "stop_loss_pct": 1,
+      "compound_reinvest_pct": 60.0,
+      "enabled": true
+    }
+  }
+}

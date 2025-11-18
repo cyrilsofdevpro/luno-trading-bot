@@ -1,0 +1,12 @@
+{
+  "total": {
+    "total_trades": 11,
+    "unique_pairs": 4,
+    "total_bought_ngn": 1298.42,
+    "total_sold_ngn": 42524.83,
+    "pnl_ngn": 41226.41,
+    "pnl_pct": 3175.13,
+    "timestamp": "2025-11-18T12:36:21.741316"
+  },
+  "daily": {}
+}

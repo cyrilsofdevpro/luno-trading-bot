@@ -1,0 +1,11 @@
+{
+  "pair": "SOLNGN",
+  "bid": 191201.0,
+  "volume": 0.001,
+  "buy_price": 235997.0,
+  "spent_ngn": 235.997,
+  "current_value_ngn": 191.201,
+  "profit_ngn": -44.79600000000002,
+  "profit_pct": -18.98159722369353,
+  "auto_sell_target_pct": 2.0
+}

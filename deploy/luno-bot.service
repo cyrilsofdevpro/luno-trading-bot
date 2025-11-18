@@ -1,0 +1,19 @@
+[Unit]
+Description=Luno trading bot (Gunicorn)
+After=network.target
+
+[Service]
+User=ubuntu
+Group=ubuntu
+WorkingDirectory=/opt/luno-bot
+Environment="PATH=/opt/luno-bot/venv/bin"
+Environment="LUNO_API_KEY=your_luno_api_key_here"
+Environment="LUNO_API_SECRET=your_luno_api_secret_here"
+Environment="TV_WEBHOOK_TOKEN=your_webhook_token_here"
+ExecStart=/opt/luno-bot/venv/bin/gunicorn -w 3 -b 127.0.0.1:8000 dashboard:app
+
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,13 @@
+[AUTOSELL] sell-now called for pair=SOL
+[AUTOSELL] fetching balance from Luno API
+[AUTOSELL] available to sell: 0.00180972 SOL
+[AUTOSELL] sell-now called for pair=SOLNGN
+[AUTOSELL] fetching balance from Luno API
+[AUTOSELL] available to sell: 0.00180972 SOL
+[AUTOSELL] ticker bid=191101.0, placing sell for 0.00180972 SOL
+[WATCHDOG] started auto_sell_monitor PID=12808 pair=USDTNGN target=2.0
+[WATCHDOG] started auto_sell_monitor PID=23380 pair=USDTNGN target=2.0
+[WATCHDOG] started auto_sell_monitor PID=23556 pair=USDTNGN target=2.0
+[WATCHDOG] started auto_sell_monitor PID=12540 pair=USDTNGN target=2.0
+[WATCHDOG] started auto_sell_monitor PID=6984 pair=USDTNGN target=2.0
+[WATCHDOG] started auto_sell_monitor PID=11976 pair=USDTNGN target=2.0

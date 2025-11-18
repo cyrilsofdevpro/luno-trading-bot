@@ -1,0 +1,12 @@
+timestamp,pair,action,price,volume,details
+1762870360.4877357,XBTUSDC,sell,104777.77,0.001,"{'status': 'dry_run', 'payload': {'pair': 'XBTUSDC', 'type': 'sell', 'volume': '0.001', 'price': '104777.77', 'order_type': 'limit'}, 'order_id': 'dry-1762870360'}"
+1762870537.016212,XBTUSDC,sell,104777.77,0.001,"{'status': 'dry_run', 'payload': {'pair': 'XBTUSDC', 'type': 'sell', 'volume': '0.001', 'price': '104777.77', 'order_type': 'limit'}, 'order_id': 'dry-1762870537'}"
+1762875753.4763732,USDTNGN,buy_usdt,1476.8799,0.52,{'order_id': 'BXJX8CD9YWXN4CU'}
+1762944021.616977,USDTNGN,BUY,1457.9999,0.1,{"order_resp": {"status": "dry_run", "payload": {"pair": "USDTNGN", "type": "BID", "volume": "0.1", "price": "1457.9999", "order_type": "limit"}, "order_id": "dry-1762944021"}}
+1762953293.428223,USDTNGN,BUY,1457.4999,0.001,{"order_resp": {"status": "dry_run", "payload": {"pair": "USDTNGN", "type": "BID", "volume": "0.001", "price": "1457.4999", "order_type": "limit"}, "order_id": "dry-1762953293"}}
+1762956191.372406,USDTNGN,BUY,1457.2299,0.1,{"order_resp": {"order_id": "BXNM4UVUQQNGR6B"}}
+1763380078.864739,ETHNGN,SELL,4202267.0,0.01,{"order_resp": {"status": "dry_run", "payload": {"pair": "ETHNGN", "type": "ASK", "volume": "0.01", "price": "4202267", "order_type": "limit"}, "order_id": "dry-1763380078"}}
+1763393985.296642,USDTNGN,BUY,1462.4989,0.001,{"order_resp": {"status": "dry_run", "payload": {"pair": "USDTNGN", "type": "BID", "volume": "0.001", "price": "1462", "order_type": "limit"}, "order_id": "dry-1763393985"}}
+1763396640.795186,USDTNGN,SELL,1463.0,0.1,{"order_resp": {"order_id": "BXEQWE6MT8VVM3D"}}
+1763396697.675302,USDTNGN,SELL,1463.0,0.1,{"order_resp": {"order_id": "BXF6P5USTA4S8QJ"}}
+1763460377.737757,SOLNGN,BUY,235997.0,0.001,{"order_resp": {"order_id": "BXF2HYWUAC53U6H"}}

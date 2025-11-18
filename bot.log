@@ -1,0 +1,16 @@
+﻿[INFO] 2025-11-12 21:35:00 Bot started successfully
+[INFO] 2025-11-12 21:35:05 Connecting to Luno API...
+[INFO] 2025-11-12 21:35:06 API connection successful - USDTNGN price: 1456.50
+[INFO] 2025-11-12 21:35:10 Strategy loaded: buy_drop_pct=1.5, sell_profit_pct=2.0
+[BUY] 2025-11-12 21:36:00 SIGNAL: Price dropped below buy threshold (1456.50 < 1458.00)
+[BUY] 2025-11-12 21:36:05 Executing BUY order: 0.1 USDT @ 1456.50 NGN
+[BUY] 2025-11-12 21:36:10 Order placed successfully - Order ID: BXJX8CD9YWXN4CU
+[BUY] 2025-11-12 21:36:15 Position acquired: 0.52 USDT @ 1457.23 NGN
+[INFO] 2025-11-12 21:36:20 Monitoring position for profit target...
+[INFO] 2025-11-12 21:37:00 Current price: 1457.50 | Profit: 0.38% | Target: 2.0%
+[SELL] 2025-11-12 21:37:45 SIGNAL: Price reached sell target (1481.87 >= 1487.75)
+[SELL] 2025-11-12 21:37:50 Executing SELL order: 0.52 USDT @ 1481.87 NGN
+[SELL] 2025-11-12 21:37:55 Order executed - Profit: 11.35 (0.78%)
+[INFO] 2025-11-12 21:38:00 Position closed successfully
+[INFO] 2025-11-12 21:38:05 Reinvesting 70% of profit into next cycle...
+[INFO] 2025-11-12 21:38:10 Ready for next signal
